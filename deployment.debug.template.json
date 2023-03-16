@@ -3,17 +3,17 @@
   "modulesContent": {
     "$edgeAgent": {
       "properties.desired": {
-        "schemaVersion": "1.4",
+        "schemaVersion": "1.1",
         "runtime": {
           "type": "docker",
           "settings": {
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              "ctricontrolo01": {
-                "username": "$CONTAINER_REGISTRY_USERNAME_ctricontrolo01",
-                "password": "$CONTAINER_REGISTRY_PASSWORD_ctricontrolo01",
-                "address": "ctricontrolo01.azurecr.io"
+              "perimetersolution": {
+                "username": "$CONTAINER_REGISTRY_USERNAME_perimetersolution",
+                "password": "$CONTAINER_REGISTRY_PASSWORD_perimetersolution",
+                "address": "perimetersolution.azurecr.io"
               }
             }
           }
@@ -57,13 +57,13 @@
           }
         },
         "modules": {
-          "icontroloEx02": {
+          "PerimeterModule": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.icontroloEx02.debug}",
+              "image": "${MODULES.PerimeterModule.debug}",
               "createOptions": {
                 "ExposedPorts": {
                   "5678/tcp": {}
@@ -95,10 +95,10 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.4",
+        "schemaVersion": "1.1",
         "routes": {
-          "icontroloEx02ToIoTHub": "FROM /messages/modules/icontroloEx02/outputs/* INTO $upstream",
-          "sensorToicontroloEx02": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/icontroloEx02/inputs/input1\")"
+          "PerimeterModuleToIoTHub": "FROM /messages/modules/PerimeterModule/outputs/* INTO $upstream",
+          "sensorToPerimeterModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/PerimeterModule/inputs/input1\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200
