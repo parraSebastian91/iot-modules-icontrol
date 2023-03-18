@@ -8,7 +8,6 @@
 import RPi.GPIO as GPIO
 
 import time
-import _thread
 
 # setup the inputs and outputs according to the matrix keypad's wiring
 # R1 = machine.Pin(15,machine.Pin.OUT)
@@ -139,18 +138,18 @@ def Keyboard_Scanner():
 
 
 # This starts the thread running
-_thread.start_new_thread(Keyboard_Scanner, ())
 
 
-# Main Loop to do all the other work needed
-while True:
-    if User_Key != "null":  # Check for value in User_Key and act on it
-        Key_Code = User_Key  # Copy User_Key to  a variable used within main loop
-        User_Key = "null"  # Reset User_Key to null so it can be written to again
-        print("Key Code =", Key_Code)
 
-    # A sleep just to slow things down to mimic work being performed
-    time.sleep(0.1)
-    # here in the main loop is where all the normal processing happens
+# # Main Loop to do all the other work needed
+# while True:
+#     if User_Key != "null":  # Check for value in User_Key and act on it
+#         Key_Code = User_Key  # Copy User_Key to  a variable used within main loop
+#         User_Key = "null"  # Reset User_Key to null so it can be written to again
+#         print("Key Code =", Key_Code)
+
+#     # A sleep just to slow things down to mimic work being performed
+#     time.sleep(0.1)
+#     # here in the main loop is where all the normal processing happens
 
 GPIO.cleanup()

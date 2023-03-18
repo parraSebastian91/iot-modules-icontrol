@@ -10,10 +10,10 @@
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              "perimetersolution": {
-                "username": "$CONTAINER_REGISTRY_USERNAME_perimetersolution",
-                "password": "$CONTAINER_REGISTRY_PASSWORD_perimetersolution",
-                "address": "perimetersolution.azurecr.io"
+              "modioticontrolcont1": {
+                "username": "$CONTAINER_REGISTRY_USERNAME_modioticontrolcont1",
+                "password": "$CONTAINER_REGISTRY_PASSWORD_modioticontrolcont1",
+                "address": "modioticontrolcont1.azurecr.io"
               }
             }
           }
@@ -57,7 +57,7 @@
           }
         },
         "modules": {
-          "PerimeterModule": {
+          "accessModule": {
             "env": {
               "HUB_CONNECTION_STRING": {
                 "value": "HostName=icontrolo-id-01.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=ianHhhTPA2CTNvq8RH35T+EFNJ17a6YhiDkBXI4ZDi8="
@@ -71,7 +71,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.PerimeterModule}",
+              "image": "${MODULES.accessModule}",
               "createOptions": "{\"HostConfig\":{\"Binds\":[\"/dev/i2c-1:/dev/i2c-1\"],\"Privileged\":true}}"
             }
           }
@@ -82,8 +82,7 @@
       "properties.desired": {
         "schemaVersion": "1.1",
         "routes": {
-          "PerimeterModuleToIoTHub": "FROM /messages/modules/PerimeterModule/outputs/* INTO $upstream",
-          "sensorToPerimeterModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/PerimeterModule/inputs/input1\")"
+          "accessModuleToIoTHub": "FROM /messages/modules/accessModule/outputs/* INTO $upstream"         
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

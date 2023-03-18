@@ -9,14 +9,15 @@ import json
 import threading
 import signal
 import time
-
+import _thread
 
 from azure.iot.device.aio import IoTHubDeviceClient
 from azure.iot.device.aio import ProvisioningDeviceClient
 from azure.iot.device import Message, MethodResponse
 from datetime import timedelta, datetime
-from utils.lcd_functions import lcd_string, lcd_init
+from utils.lcd_controller import lcd_string, lcd_init
 from utils.telemetry import *
+from utils.numpad_controller import *
 import asyncio
 from dotenv import load_dotenv
 
@@ -78,12 +79,9 @@ async def run(client):
 
 def main():
     load_dotenv()
-    client = create_client()
     lcd_init()
-    lcd_string('Iniciando', 1)
-    time.sleep(3)
-    lcd_string('3 segundos ...', 2)
-    time.sleep(3)
+
+    client = create_client()
 
     def module_termination_handler(signal, frame):
         print("IoTHubClient sample stopped by Edge")
@@ -95,9 +93,12 @@ def main():
     loop = asyncio.get_event_loop()
 
     try:
+        _thread.start_new_thread(Keyboard_Scanner, ())
+        _thread.exit
         loop.run_until_complete(run(client))
     except Exception as e:
         print("Unexpected error %s " % e)
+        logging.error(Exception)
         raise
     finally:
         print("Shutting down IoT Hub Client...")

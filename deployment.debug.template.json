@@ -3,17 +3,17 @@
   "modulesContent": {
     "$edgeAgent": {
       "properties.desired": {
-        "schemaVersion": "1.1",
+        "schemaVersion": "1.4",
         "runtime": {
           "type": "docker",
           "settings": {
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              "perimetersolution": {
-                "username": "$CONTAINER_REGISTRY_USERNAME_perimetersolution",
-                "password": "$CONTAINER_REGISTRY_PASSWORD_perimetersolution",
-                "address": "perimetersolution.azurecr.io"
+              "modioticontrolcont1": {
+                "username": "$CONTAINER_REGISTRY_USERNAME_modioticontrolcont1",
+                "password": "$CONTAINER_REGISTRY_PASSWORD_modioticontrolcont1",
+                "address": "modioticontrolcont1.azurecr.io"
               }
             }
           }
@@ -57,13 +57,13 @@
           }
         },
         "modules": {
-          "PerimeterModule": {
+          "accessModule": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.PerimeterModule.debug}",
+              "image": "${MODULES.accessModule.debug}",
               "createOptions": {
                 "ExposedPorts": {
                   "5678/tcp": {}
@@ -95,10 +95,10 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.1",
+        "schemaVersion": "1.4",
         "routes": {
-          "PerimeterModuleToIoTHub": "FROM /messages/modules/PerimeterModule/outputs/* INTO $upstream",
-          "sensorToPerimeterModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/PerimeterModule/inputs/input1\")"
+          "accessModuleToIoTHub": "FROM /messages/modules/accessModule/outputs/* INTO $upstream",
+          "sensorToaccessModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/accessModule/inputs/input1\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

@@ -2,7 +2,7 @@
   "$schema-version": "0.0.1",
   "description": "",
   "image": {
-    "repository": "ctricontrolo01.azurecr.io/icontroloex02",
+    "repository": "modioticontrolcont1.azurecr.io/accessmodule",
     "tag": {
       "version": "0.0.1",
       "platforms": {
