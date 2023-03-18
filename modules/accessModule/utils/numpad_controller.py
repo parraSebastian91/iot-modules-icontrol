@@ -85,9 +85,7 @@ def Keyboard_Scanner():
 def keyPressed(key):
     global User_Key
     global numero_depto
-    Lock = "UNLOCKED"
-    if (Lock == "UNLOCKED") and (key != "null"):
-        Lock = "LOCKED"
+    
     if (User_Key == "null"):
         if (key == "A"):
             User_Key = key
@@ -103,10 +101,15 @@ def keyPressed(key):
             lcd_string("Opcion D", 1)
     else:
         if (User_Key == "A"):
-            numero_depto = numero_depto + key
-            lcd_string("Depto: " + numero_depto, 1)
             if (key == "B"):
+                key = ""
                 numero_depto = ""
+            if (key == "C"):
+                lcd_string("Esperando Respuesta", 1)
+                lcd_string("Depto " + numero_depto, 2)
+            else:    
+                numero_depto = numero_depto + key
+                lcd_string("Depto: " + numero_depto, 1)
         if (User_Key == "B"):
             numero_depto = numero_depto + key
             lcd_string("Opcion B", 1)
@@ -116,3 +119,5 @@ def keyPressed(key):
         if (User_Key == "D"):
             numero_depto = numero_depto + key
             lcd_string("Opcion D", 1)
+    time.sleep(0.5)
+    
